@@ -4,7 +4,6 @@
 		<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 			<header>
 				<h1><?php the_title(); ?></h1>
-				<nav><a href="<?php bloginfo('url'); ?>" title="Back to home">Back to home</a></nav>
 				<?php if(get_field('video_embed_code')): ?>
 					<div class="mb_work-single-hero-video">
 						<iframe src="https://player.vimeo.com/video/<?php the_field('video_embed_code'); ?>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

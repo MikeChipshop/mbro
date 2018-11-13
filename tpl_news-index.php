@@ -4,7 +4,6 @@
 	<div class="mb_wrap">
 		<header class="mbro2_news-page-header">
 			<h1 class="mb_home-section-title">Case Studies &amp; News</h1>
-			<nav class="mbro2_news-back"><a href="<?php bloginfo('url'); ?>" title="Back to home">Back to home</a></nav>
 		</header>
 		<div class="mb_home-work-showcase">
 			<button>Filters</button>
