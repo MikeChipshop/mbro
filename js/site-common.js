@@ -129,14 +129,8 @@ jQuery(document).ready(function( $ ) {
 		var slugcat = $(this).data('slug');
 		$( ".mb_home-work-videos li" ).hide(400);
 		$( ".mb_home-work-videos li."+slugcat).show(400);
-		history.pushState("Sausage", "Mother Brown"+slugcat, slugcat);
-		window.addEventListener('popstate', function(event) {
-			console.log('popstate fired!');
+		history.pushState(slugcat, "Mother Brown"+slugcat, slugcat);
 
-			updateContent(event.state);
-
-			return event.preventDefault();
-		});
 
 	});
 	$(".mb_rearrange-loop-news").click(function(e) {
@@ -144,7 +138,6 @@ jQuery(document).ready(function( $ ) {
 		$( ".mb_home-work-videos li" ).hide(400);
 		$( ".mb_home-work-videos li.category-news").show(400);
 		$( ".mb_home-work-videos li.category-case-study").show(400);
-		history.pushState(null, null, slugcat);
 	});
 
 	$(".mb_rearrange-loop-news-index").click(function(e) {
@@ -152,8 +145,12 @@ jQuery(document).ready(function( $ ) {
 		var slugcat = $(this).data('slug');
 		$( ".mb_home-work-videos li" ).hide(400);
 		$( ".mb_home-work-videos li."+slugcat).show(400);
-		history.pushState(null, null, slugcat);
-	});
+    });
+
+    window.addEventListener('popstate', function(event) {
+        console.log('popstate fired!');
+        console.log(history.state);
+    });
 
 	// Read mores
 
