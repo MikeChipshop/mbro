@@ -132,12 +132,12 @@ jQuery(document).ready(function( $ ) {
 		history.pushState("Sausage", "Mother Brown"+slugcat, slugcat);
 		window.addEventListener('popstate', function(event) {
 			console.log('popstate fired!');
-		  
+
 			updateContent(event.state);
 
 			return event.preventDefault();
 		});
-		
+
 	});
 	$(".mb_rearrange-loop-news").click(function(e) {
 		e.preventDefault();
@@ -224,7 +224,6 @@ jQuery(document).ready(function( $ ) {
 
 	/* Hide overlay bar on auto play */
 	player.on('play', function() {
-		console.log('played the video!');
 		setTimeout(function () {
 			$(".mb_video-overlay-bar").addClass("hide");
 		}, 3000);
@@ -232,7 +231,6 @@ jQuery(document).ready(function( $ ) {
 
 	/* Turn off volume on auto play */
 	player.ready().then(function() {
-		console.log('player ready!');
 		player.setVolume(0).then(function(volume) {});
 		player.play().then(function() {});
 	});
