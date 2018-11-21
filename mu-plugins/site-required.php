@@ -302,7 +302,7 @@ endif;
 add_action( 'init', 'register_cpt_videos' );
 function register_cpt_videos() {
 
-    $labels = array( 
+    $labels = array(
         'name' => _x( 'Videos', 'videos' ),
         'singular_name' => _x( 'Video', 'videos' ),
         'add_new' => _x( 'Add New Video', 'videos' ),
@@ -317,7 +317,7 @@ function register_cpt_videos() {
         'menu_name' => _x( 'Videos', 'videos' ),
     );
 
-    $args = array( 
+    $args = array(
         'labels' => $labels,
         'hierarchical' => true,
         'description' => 'Post type for videos',
@@ -325,7 +325,7 @@ function register_cpt_videos() {
         'public' => true,
         'show_ui' => true,
         'show_in_menu' => true,
-        'menu_position' => 20,        
+        'menu_position' => 20,
         'show_in_nav_menus' => true,
         'publicly_queryable' => true,
         'exclude_from_search' => false,
@@ -360,12 +360,12 @@ function mb_collections_taxonomy() {
     'all_items' => __( 'All Collections' ),
     'parent_item' => __( 'Parent Collections' ),
     'parent_item_colon' => __( 'Parent Collections:' ),
-    'edit_item' => __( 'Edit Collection' ), 
+    'edit_item' => __( 'Edit Collection' ),
     'update_item' => __( 'Update Collection' ),
     'add_new_item' => __( 'Add New Collection' ),
     'new_item_name' => __( 'New Collection Name' ),
     'menu_name' => __( 'Collections' ),
-  ); 	
+  );
 
 // Now register the taxonomy
 
@@ -375,7 +375,7 @@ function mb_collections_taxonomy() {
     'show_ui' => true,
     'show_admin_column' => true,
     'query_var' => true,
-    'rewrite' => array( 'slug' => 'type' ),
+    'rewrite' => array( 'slug' => 'collections' ),
 	'show_in_nav_menus' => true
   ));
 
@@ -401,12 +401,12 @@ function mb_industry_taxonomy() {
     'all_items' => __( 'All Industries' ),
     'parent_item' => __( 'Parent Industry' ),
     'parent_item_colon' => __( 'Parent Industry:' ),
-    'edit_item' => __( 'Edit Industry' ), 
+    'edit_item' => __( 'Edit Industry' ),
     'update_item' => __( 'Update Industry' ),
     'add_new_item' => __( 'Add New Industry' ),
     'new_item_name' => __( 'New Industry Name' ),
     'menu_name' => __( 'Industry' ),
-  ); 	
+  );
 
 // Now register the taxonomy
 
@@ -492,7 +492,7 @@ function my_custom_columns($column)
 
 		//
 	}
-	
+
 	elseif($column == 'industry')
 	{
 		//

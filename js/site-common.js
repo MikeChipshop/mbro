@@ -150,11 +150,12 @@ jQuery(document).ready(function( $ ) {
     // ======================================
 
 	$(".mb_rearrange-loop").click(function(e) {
-		e.preventDefault();
-		var slugcat = $(this).data('slug');
-        history.pushState(slugcat, "Mother Brown"+slugcat, slugcat);
+        e.preventDefault();
         $taxonomy = $(this).data('taxonomy');
         $term = $(this).data('term');
+		var slugcat = $(this).data('slug');
+
+
 
 
 
@@ -171,6 +172,7 @@ jQuery(document).ready(function( $ ) {
             success: function(data, textStatus, XMLHttpRequest) {
                 jQuery('.mb_home-work-videos ul').html('');
                 jQuery('.mb_home-work-videos ul').append(data);
+
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 if(typeof console === "undefined") {
@@ -189,9 +191,13 @@ jQuery(document).ready(function( $ ) {
     });
 
     window.onpopstate = function(event) {
-        $(".loader").show();
-        console.log("pathname: "+location.pathname);
-        loadContent(location.pathname);
+        // AJAX Request
+
+        history.pushState(data, "Mother Brown", '/' +$taxonomy+ '/' +$term);
+        console.log(history.state);
+
+                jQuery('.mb_home-work-videos ul').html('');
+                jQuery('.mb_home-work-videos ul').append(data);
     };
 
 
@@ -204,6 +210,7 @@ jQuery(document).ready(function( $ ) {
 
 	$(".mb_rearrange-loop-news").click(function(e) {
         e.preventDefault();
+        history.pushState('', "Mother Brown", '/case-studies-news');
 
         // AJAX Request
         jQuery.ajax({
