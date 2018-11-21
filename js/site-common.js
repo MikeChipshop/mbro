@@ -152,9 +152,11 @@ jQuery(document).ready(function( $ ) {
 	$(".mb_rearrange-loop").click(function(e) {
 		e.preventDefault();
 		var slugcat = $(this).data('slug');
-        //history.pushState(slugcat, "Mother Brown"+slugcat, slugcat);
+        history.pushState(slugcat, "Mother Brown"+slugcat, slugcat);
         $taxonomy = $(this).data('taxonomy');
         $term = $(this).data('term');
+
+
 
         // AJAX Request
         jQuery.ajax({
@@ -185,6 +187,12 @@ jQuery(document).ready(function( $ ) {
             }
         });
     });
+
+    window.onpopstate = function(event) {
+        $(".loader").show();
+        console.log("pathname: "+location.pathname);
+        loadContent(location.pathname);
+    };
 
 
 

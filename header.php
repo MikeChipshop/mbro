@@ -95,7 +95,7 @@
 	</div>
 	<nav><ul><?php wp_nav_menu( array('theme_location' => 'main_menu' )); ?></ul></nav>
 </div>
-<?php if(is_front_page() ): ?>
+<?php if(is_front_page() || is_tax()): ?>
 <div class="mb_home-full-screen-top">
 	<div class="mb_home-masthead">
 		<div class="mb_wrap">
@@ -179,7 +179,7 @@
 	</div>
 	<div class="mb_home-hero">
 		<div class="mb_hero-embed-frame">
-			<iframe id="mb_vimeo-hero" src="https://player.vimeo.com/video/<?php the_field('home_hero_video'); ?>?loop=1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			<iframe id="mb_vimeo-hero" src="https://player.vimeo.com/video/<?php the_field('home_hero_video',10); ?>?loop=1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 		</div>
 		<!-- background=1 -->
 		<div class="mb_video-overlay-bar">

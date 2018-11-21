@@ -259,3 +259,11 @@ function filter_news() {
 }
 add_action( 'wp_ajax_nopriv_filter_news', 'filter_news' );
 add_action( 'wp_ajax_filter_news', 'filter_news' );
+
+
+function add_my_custom_post_type( $query ) {
+    if ($query->is_main_query() && $query->is_tax())
+        $query->set( 'post_type', array( 'post', 'videos' ) );
+    return $query;
+}
+add_action( 'pre_get_posts', 'add_my_custom_post_type' );
