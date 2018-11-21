@@ -53,6 +53,20 @@ body {
 .mb_home-work-showcase button {
 	display:none;
 }
+.loader {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgb(246, 246, 246,.9);
+    top: 0px;
+    left: 0px;
+    z-index: 9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    display:none;
+}
 
 /* ------------------------------------------------
  Main Header

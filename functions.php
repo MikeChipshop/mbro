@@ -170,3 +170,92 @@ if(function_exists('acf_add_options_page')) {
 
 }
 add_theme_support( 'title-tag' );
+
+/***************************************************
+/ Front Page Filter AJAX
+/***************************************************/
+function filter_work() {
+    $worktax = $_POST[ 'worktax' ];
+    $workterm = $_POST[ 'workterm' ];
+	$args = array(
+		'post_type' => array( 'videos', 'post' ),
+		'posts_per_page'=> -1,
+        'order'	=> 'RAND',
+        'tax_query' => array(
+            array(
+                'taxonomy' => $worktax,
+                'field' => 'slug',
+                'terms' => $workterm
+            )
+        )
+	);
+
+    $videoloop = new WP_Query( $args ); ?>
+        <?php if ( $videoloop->have_posts() ) :	?><?php while ( $videoloop->have_posts() ) : $videoloop->the_post(); ?>
+        <li <?php post_class(); ?>>
+									<a href="<?php the_permalink(); ?>">
+										<?php if(has_post_thumbnail()): ?>
+											<?php the_post_thumbnail('home-thumbs'); ?>
+										<?php else: ?>
+											<img src="<?php bloginfo('stylesheet_directory'); ?>/img/no-image.png" alt="No image available currently">
+										<?php endif; ?>
+									<div class="mb_work-overlay">
+										<h2>
+											<?php if(get_field('thumbnail_overlay_title')): ?>
+												<strong><?php the_field('thumbnail_overlay_title'); ?></strong>
+												<?php the_field('thumbnail_overlay_content'); ?>
+											<?php else: the_title(); ?>
+											<?php endif; ?>
+										</h2>
+									</div>
+									</a>
+								</li>
+        <?php
+        endwhile;
+    endif;
+
+
+
+    die();
+}
+add_action( 'wp_ajax_nopriv_filter_work', 'filter_work' );
+add_action( 'wp_ajax_filter_work', 'filter_work' );
+
+function filter_news() {
+	$newsargs = array(
+		'post_type' => array( 'post' ),
+		'posts_per_page'=> -1,
+        'order'	=> 'RAND',
+	);
+
+    $newsloop = new WP_Query( $newsargs ); ?>
+        <?php if ( $newsloop->have_posts() ) :	?><?php while ( $newsloop->have_posts() ) : $newsloop->the_post(); ?>
+            <li <?php post_class(); ?>>
+                <a href="<?php the_permalink(); ?>">
+                    <?php
+                        $attachment_id = get_field('front_page_wide_image');
+                        $size = "wide-front";
+                        $image = wp_get_attachment_image_src( $attachment_id, $size );
+                    ?>
+                    <img src="<?php echo $image[0] ?>" alt="<?php the_title(); ?>">
+                    <div class="mb_work-overlay">
+                        <h2>
+                            <?php if(get_field('thumbnail_overlay_title')): ?>
+                                <strong><?php the_field('thumbnail_overlay_title'); ?></strong>
+                                <?php the_field('thumbnail_overlay_content'); ?>
+                            <?php else: the_title(); ?>
+                            <?php endif; ?>
+                        </h2>
+                    </div>
+                </a>
+            </li>
+        <?php
+        endwhile;
+    endif;
+
+
+
+    die();
+}
+add_action( 'wp_ajax_nopriv_filter_news', 'filter_news' );
+add_action( 'wp_ajax_filter_news', 'filter_news' );

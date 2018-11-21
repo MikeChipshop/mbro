@@ -1,8 +1,22 @@
 jQuery(document).ready(function( $ ) {
 
-	// Append target class to HTML for mobile
+    // ======================================
+    // Show loader icon when AJAX in progress
+    // ======================================
+
+    $(document).ajaxStart(function() {
+        $(".loader").show();
+    });
+    $(document).ajaxStop(function() {
+        $(".loader").hide();
+    });
+
+    // ======================================
+    // Append target class to HTML for mobile
+    // ======================================
 
 	$(document).on('resize, ready', function() {
+
 	 // Add class if screen size equals
 	 var $window = $(window),
 	 $html = $('body');
@@ -21,7 +35,10 @@ jQuery(document).ready(function( $ ) {
 
 	});
 
-	// Load video in case study popup
+	// ======================================
+    // Load Video in Case Study popup
+    // ======================================
+
 	$('.mb_case-study-thumb-item').click(function(e) {
   		var embed = $(this).data('videocode');
 		$('.mb_popup-video').html('<iframe id="mb_vimeo-hero" src="https://player.vimeo.com/video/'+embed+'?loop=1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');
@@ -31,7 +48,9 @@ jQuery(document).ready(function( $ ) {
 		$('.mb_popup-video-wrap').removeClass('open');
 	});
 
-	// Scroll Nav
+	// ======================================
+    // Scroll Nav
+    // ======================================
 
 	$(document).on('ready', function() {
 		$(".desktop .mb_scroll-down button").click(function(e) {
@@ -77,7 +96,9 @@ jQuery(document).ready(function( $ ) {
 			}, 1000);
 		});
 
-		// Scroll nav on mobile
+		// ======================================
+        // Mobile Scroll Nav
+        // ======================================
 
 		$(".mobile .mb_scroll-down button").click(function(e) {
 			e.preventDefault();
@@ -121,31 +142,119 @@ jQuery(document).ready(function( $ ) {
 				scrollTop: $("#mb_contact").offset().top -84
 			}, 1000);
 		});
-	});
-	// 'Work' thumbs
+    });
+
+
+    // ======================================
+    // Work Thumbs AJAX
+    // ======================================
 
 	$(".mb_rearrange-loop").click(function(e) {
 		e.preventDefault();
 		var slugcat = $(this).data('slug');
-		$( ".mb_home-work-videos li" ).hide(400);
-		$( ".mb_home-work-videos li."+slugcat).show(400);
-		history.pushState(slugcat, "Mother Brown"+slugcat, slugcat);
+        //history.pushState(slugcat, "Mother Brown"+slugcat, slugcat);
+        $taxonomy = $(this).data('taxonomy');
+        $term = $(this).data('term');
 
+        // AJAX Request
+        jQuery.ajax({
 
-	});
-	$(".mb_rearrange-loop-news").click(function(e) {
-		e.preventDefault();
-		$( ".mb_home-work-videos li" ).hide(400);
-		$( ".mb_home-work-videos li.category-news").show(400);
-		$( ".mb_home-work-videos li.category-case-study").show(400);
-	});
-
-	$(".mb_rearrange-loop-news-index").click(function(e) {
-		e.preventDefault();
-		var slugcat = $(this).data('slug');
-		$( ".mb_home-work-videos li" ).hide(400);
-		$( ".mb_home-work-videos li."+slugcat).show(400);
+            type: 'POST',
+            url: '/wp-admin/admin-ajax.php',
+            data: {
+                action: 'filter_work',
+                worktax: $taxonomy,
+                workterm: $term,
+            },
+            success: function(data, textStatus, XMLHttpRequest) {
+                jQuery('.mb_home-work-videos ul').html('');
+                jQuery('.mb_home-work-videos ul').append(data);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(typeof console === "undefined") {
+                    console = {
+                        log: function() { },
+                        debug: function() { },
+                    };
+                }
+                if (XMLHttpRequest.status == 404) {
+                    console.log('Element not found.');
+                } else {
+                    console.log('Error: ' + errorThrown);
+                }
+            }
+        });
     });
+
+
+
+
+
+    // ======================================
+    // Temp News Thumbs AJAX
+    // ======================================
+
+	$(".mb_rearrange-loop-news").click(function(e) {
+        e.preventDefault();
+
+        // AJAX Request
+        jQuery.ajax({
+
+            type: 'POST',
+            url: '/wp-admin/admin-ajax.php',
+            data: {
+                action: 'filter_news',
+            },
+            success: function(data, textStatus, XMLHttpRequest) {
+                jQuery('.mb_home-work-videos ul').html('');
+                jQuery('.mb_home-work-videos ul').append(data);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(typeof console === "undefined") {
+                    console = {
+                        log: function() { },
+                        debug: function() { },
+                    };
+                }
+                if (XMLHttpRequest.status == 404) {
+                    console.log('Element not found.');
+                } else {
+                    console.log('Error: ' + errorThrown);
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+    });
+
+    // ======================================
+    // News thumbs AJAX
+    // ======================================
+	//$(".mb_rearrange-loop-news").click(function(e) {
+		//e.preventDefault();
+		//$( ".mb_home-work-videos li" ).hide(400);
+		//$( ".mb_home-work-videos li.category-news").show(400);
+		//$( ".mb_home-work-videos li.category-case-study").show(400);
+    //});
+
+
+
+
+
+
+
+	//$(".mb_rearrange-loop-news-index").click(function(e) {
+		//e.preventDefault();
+		//var slugcat = $(this).data('slug');
+		//$( ".mb_home-work-videos li" ).hide(400);
+		//$( ".mb_home-work-videos li."+slugcat).show(400);
+    //});
 
     window.addEventListener('popstate', function(event) {
         console.log('popstate fired!');
@@ -159,7 +268,9 @@ jQuery(document).ready(function( $ ) {
 		$( ".mb_read-more-content" ).toggle(400);
 	});
 
-	// Testimonial Slider
+	// ======================================
+    // Testimonial Slider
+    // ======================================
 
 	$('.mb_home-testimonials').slick({
 		autoplay: true,
@@ -167,7 +278,9 @@ jQuery(document).ready(function( $ ) {
 		autoplaySpeed: 5000
 	});
 
-	// "Studio" background
+	// ======================================
+    // Studio Background
+    // ======================================
 
 	$('.mb_home-pos-background').slick({
 		autoplay: true,
@@ -176,7 +289,9 @@ jQuery(document).ready(function( $ ) {
 		fade: true
 	});
 
-	// Mobile menu stuff
+	// ======================================
+    // Mobile Menu
+    // ======================================
 	$(".mb_mobile-nav-logo button").click(function() {
 		$( "body" ).toggleClass('mb_mobile-menu-open');
 	});
@@ -184,15 +299,13 @@ jQuery(document).ready(function( $ ) {
 		$( "body" ).removeClass('mb_mobile-menu-open');
 	});
 
-	// Filters dropdown
+	// ======================================
+    // Filters Dropdown
+    // ======================================
 	$(".mb_home-work-showcase button").click(function() {
 		$( "body" ).toggleClass('mb_filters-open');
 		$(".mb_home-work-filters").toggle(500);
 	});
-	/*$(".mb_filters-open .mb_home-work-showcase button").click(function() {
-		$( "body" ).removeClass('mb_filters-open');
-		$(".mb_home-work-filters").hide(500);
-	});*/
 
 	$(document).on("click", ".mobile .mb_home-work-filters a", function(){
     	$( "body" ).removeClass('mb_filters-open');
@@ -200,12 +313,9 @@ jQuery(document).ready(function( $ ) {
 	});
 
 
-	/* $(".mb_home-work-filters a").click(function() {
-		$( "body" ).removeClass('mb_filters-open');
-		$(".mb_home-work-filters").hide(500);
-	}); */
-
-	//Animated "Services", Studio section
+	// ======================================
+    // Animated Studio Section
+    // ======================================
 	$(".mb_service-section").click(function() {
 		$(".mb_service-section ul").hide(300);
 		$(".mb_service-section button").removeClass('mb_section-active');
@@ -213,7 +323,9 @@ jQuery(document).ready(function( $ ) {
 		$(this).children('button').toggleClass('mb_section-active');
 	});
 
-	// Video settings and controls
+	// ======================================
+    // Video Settings and Controls
+    // ======================================
 
 	/* Setup video player */
 	var iframe = document.querySelector('#mb_vimeo-hero');
@@ -244,7 +356,9 @@ jQuery(document).ready(function( $ ) {
         }
     });
 
-	// Header top animations
+	// ======================================
+    // Header Top Animations
+    // ======================================
 	var stickyTop = $('.mb_global-header').offset().top - 60;
 
 	$(window).on( 'scroll', function(){
@@ -266,5 +380,3 @@ jQuery(document).ready(function( $ ) {
 
 
 });
-
-//<iframe id="" src="https://player.vimeo.com/video/'+ embed +'?loop=1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
