@@ -149,14 +149,14 @@ jQuery(document).ready(function( $ ) {
     // Work Thumbs AJAX
     // ======================================
 
+    history.pushState('start', "Mother Brown", '');
 	$(".mb_rearrange-loop").click(function(e) {
+
         e.preventDefault();
-        $taxonomy = $(this).data('taxonomy');
-        $term = $(this).data('term');
-		var slugcat = $(this).data('slug');
+        let taxonomy = $(this).data('taxonomy');
+        let term = $(this).data('term');
 
-
-
+        console.log(history.state); // Works
 
 
         // AJAX Request
@@ -166,12 +166,15 @@ jQuery(document).ready(function( $ ) {
             url: '/wp-admin/admin-ajax.php',
             data: {
                 action: 'filter_work',
-                worktax: $taxonomy,
-                workterm: $term,
+                worktax: taxonomy,
+                workterm: term,
             },
             success: function(data, textStatus, XMLHttpRequest) {
+
                 jQuery('.mb_home-work-videos ul').html('');
+                history.pushState(data, "Mother Brown", '/' +taxonomy+ '/' +term);
                 jQuery('.mb_home-work-videos ul').append(data);
+
 
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -188,16 +191,18 @@ jQuery(document).ready(function( $ ) {
                 }
             }
         });
+
+
     });
 
     window.onpopstate = function(event) {
-        // AJAX Request
-
-        history.pushState(data, "Mother Brown", '/' +$taxonomy+ '/' +$term);
         console.log(history.state);
-
-                jQuery('.mb_home-work-videos ul').html('');
-                jQuery('.mb_home-work-videos ul').append(data);
+        if (history.state === 'start'){
+            window.location.reload(false);
+        } else {
+            jQuery('.mb_home-work-videos ul').html('');
+            jQuery('.mb_home-work-videos ul').append(history.state);
+        }
     };
 
 
